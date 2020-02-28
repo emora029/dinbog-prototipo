@@ -8,40 +8,44 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(43.0),
-        child: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.grey[200],
-          title: _userName(context, 16, 15, 12),
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.grey[700],),
-                onPressed: () {},
-              );
-            },
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(43.0),
+          child: SafeArea(
+            child: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.grey[200],
+              title: _userName(context, 16, 15, 12),
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.grey[700],),
+                    onPressed: () {},
+                  );
+                },
+              ),
+            ),
           ),
         ),
-      ),
-      body: DefaultTabController(
-        length: 6,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  _sliverListContact(context),
+        body: DefaultTabController(
+          length: 6,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, _) {
+              return [
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    _sliverListContact(context),
+                  ),
                 ),
-              ),
-            ];
-          },
-          body: _createContent()
+              ];
+            },
+            body: _createContent()
+          ),
         ),
+        bottomNavigationBar: _bottomNavigationBar(context)
       ),
-      bottomNavigationBar: _bottomNavigationBar(context)
     );
   }
 
@@ -90,17 +94,17 @@ class _HomePageState extends State<HomePage> {
           thickness: 5,
         ),
         _postWithImage(context, "assets/be18fb2927c8fdd98d2269a56eaa5f0f.jpg"),
-        postOnlyText(context, 'Today was a excellent photoshoot day!! with my all my loves.'),
+        _postOnlyText(context, 'Today was a excellent photoshoot day!! with my all my loves.'),
         _postWithImage(context, "assets/1ddaf200d9e3bf55ec54b200dc0ec7b1.jpg"),
-        postOnlyText(context, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
+        _postOnlyText(context, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
         _postWithImage(context, "assets/cf363aadd935b0debceaba5f4c9a740a.jpg"),
-        postOnlyText(context, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. '),
+        _postOnlyText(context, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. '),
         SizedBox(height: 15.0)
       ],
     );
   }
 
-  Widget postOnlyText(BuildContext context, String postOnlyTextDescription){
+  Widget _postOnlyText(BuildContext context, String postOnlyTextDescription){
 
     double h = MediaQuery.of(context).size.height;
 
@@ -196,21 +200,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _userName(BuildContext context, double fontSizeUserName, double checkUserName, double verificationIconSize){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Karla Venom ', style: TextStyle(color: Colors.black, fontSize: fontSizeUserName, fontWeight: FontWeight.w800),),
-        Container(
-          width: checkUserName,
-          height: checkUserName,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.0),
-            color: Color.fromRGBO(17, 129, 195, 1.0)
+    return SafeArea(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Karla Venom ', style: TextStyle(color: Colors.black, fontSize: fontSizeUserName, fontWeight: FontWeight.w800),),
+          Container(
+            width: checkUserName,
+            height: checkUserName,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              color: Color.fromRGBO(17, 129, 195, 1.0)
+            ),
+            child: Icon(Icons.check, color: Colors.white, size: verificationIconSize,)
           ),
-          child: Icon(Icons.check, color: Colors.white, size: verificationIconSize,)
-        ),
-        SizedBox(width: 30,)
-      ],
+          SizedBox(width: 30,)
+        ],
+      ),
     );
   }
 
@@ -244,9 +250,9 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              _community(context, 'Following ', '376 '),
-              _community(context, 'Follower ', '17k '),
-              _community(context, 'Friends ', '305 '),
+              _community('Following ', '376 '),
+              _community('Follower ', '17k '),
+              _community('Friends ', '305 '),
             ],
           ),
           SizedBox(height: h/115,),
@@ -268,18 +274,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _community(BuildContext context, String description, String number){
-
-    double h = MediaQuery.of(context).size.height;
-
+  Widget _community(String description, String number){
     return Row(
       children: <Widget>[
         RichText(
           text: TextSpan(
           text: description,
-          style: TextStyle(fontSize: h/49.5, color: Colors.black, fontWeight: FontWeight.bold,),
+          style: TextStyle(fontSize: 14.5, color: Colors.black, fontWeight: FontWeight.bold,),
           children: <TextSpan>[
-            TextSpan(text: number,style: TextStyle(fontSize: h/49.5, fontWeight: FontWeight.bold, color: Color.fromRGBO(17, 129, 195, 1.0))),
+            TextSpan(text: number,style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Color.fromRGBO(17, 129, 195, 1.0))),
             ]
           ),
         ),
