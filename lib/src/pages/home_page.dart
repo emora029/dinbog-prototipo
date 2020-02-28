@@ -160,13 +160,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ]),
         ),
-        Container(
-          width: double.infinity,
-          child: Image(
-            height: 260,
-            fit: BoxFit.scaleDown,
-            image: AssetImage(imgPost), 
-          ),
+        Image(
+          fit: BoxFit.scaleDown,
+          image: AssetImage(imgPost), 
         ),
         Row(
           children: <Widget>[
@@ -244,7 +240,7 @@ class _HomePageState extends State<HomePage> {
     double h = MediaQuery.of(context).size.height;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(h/6.8, h/50, 0, h/50),
+      padding: EdgeInsets.fromLTRB(100, 14, 0, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -339,13 +335,16 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _sliverListContactInformation;
 
   List<Widget> _sliverListContact(BuildContext context) {
+
+    double w = MediaQuery.of(context).size.width;
+
     _sliverListContactInformation ??= List.generate(1, (index) {
       return Stack(
         children: <Widget>[
           _profileInformation(context),
           Container(
-            padding: EdgeInsets.only(left: 10, top:10),
-            child: _profilePhoto(38.0)
+            padding: EdgeInsets.only(left: 5, top:10, right: 5),
+            child: _profilePhoto(w/8.8)
           ),
         ],
       );
